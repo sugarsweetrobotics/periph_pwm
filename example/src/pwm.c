@@ -1,0 +1,70 @@
+/*
+ * @brief Analog to digital converter example
+ *
+ * @note
+ * Copyright(C) NXP Semiconductors, 2013
+ * All rights reserved.
+ *
+ * @par
+ * Software that is described herein is for illustrative purposes only
+ * which provides customers with programming information regarding the
+ * LPC products.  This software is supplied "AS IS" without any warranties of
+ * any kind, and NXP Semiconductors and its licensor disclaim any and
+ * all warranties, express or implied, including all implied warranties of
+ * merchantability, fitness for a particular purpose and non-infringement of
+ * intellectual property rights.  NXP Semiconductors assumes no responsibility
+ * or liability for the use of the software, conveys no license or rights under any
+ * patent, copyright, mask work right, or any other intellectual property rights in
+ * or to any products. NXP Semiconductors reserves the right to make changes
+ * in the software without notification. NXP Semiconductors also makes no
+ * representation or warranty that such application will be suitable for the
+ * specified use without further testing or modification.
+ *
+ * @par
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation is hereby granted, under NXP Semiconductors' and its
+ * licensor's relevant copyrights in the software, without fee, provided that it
+ * is used in conjunction with NXP Semiconductors microcontrollers.  This
+ * copyright, permission, and disclaimer notice must appear in all copies of
+ * this code.
+ */
+
+#include "board.h"
+#include <stdio.h>
+#include "pwm_13xx.h"
+
+/*****************************************************************************
+ * Private types/enumerations/variables
+ ****************************************************************************/
+
+/*****************************************************************************
+ * Public types/enumerations/variables
+ ****************************************************************************/
+
+/*****************************************************************************
+ * Private functions
+ ****************************************************************************/
+
+/**
+ * @brief	main routine for ADC example
+ * @return	Function should not exit.
+ */
+int main(void)
+{
+	/* Generic Initialization */
+	SystemCoreClockUpdate();
+	Board_Init();
+	DEBUGSTR("PWM Demo\r\n");
+
+	int handle0 = Chip_PWM_Init(0, 18, 50); // Pin0_18. This will occupy TIMER32_0
+	int handle1 = Chip_PWM_Init(0, 13, 50); // Pin0_13. This will occupy TIMER32_1
+	Chip_PWM_SetDuty(handle0, 32000);
+	Chip_PWM_SetDuty(handle1, 16000);
+
+	while(1) {
+		__WFI();
+	}
+
+	/* Should not run to here */
+	return 0;
+}
